@@ -11,6 +11,10 @@ env:
   ENVIRONMENT: production
   DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
   DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+  HOSTS: ${{ secrets.VPS_HOST }}
+  USERNAME: ${{ secrets.VPS_USERNAME }}
   
 jobs:
   build:
@@ -45,20 +49,35 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up SSH
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: $HOSTS
+        username: $USERNAME
+        key: $PRIVATE_KEY
+        port: 22
+        script: |
+          cd /var/www/$IMAGE_NAME
+
     - name: Build Docker image
       run: docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
-    - name: Set up SSH
+    - name: Deploy with Docker Compose
       run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ssh-key
-        chmod 600 ssh-key
-        echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
-        ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+        docker-compose down
+        docker-compose up -d
+        
+    # - name: Set up SSH
+    #   run: |
+    #     echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ssh-key
+    #     chmod 600 ssh-key
+    #     echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+    #     ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
 
-    - name: Deploy
-      run: |
-        scp -i ssh-key -r build/* "${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/$IMAGE_NAME"
-        ssh -i ssh-key "${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}" <<EOF
-        cd /var/www/$IMAGE_NAME
-        docker-compose up -d --build
-        EOF
+    # - name: Deploy
+    #   run: |
+    #     scp -i ssh-key -r build/* "${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/$IMAGE_NAME"
+    #     ssh -i ssh-key "${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}" <<EOF
+    #     cd /var/www/$IMAGE_NAME
+    #     docker-compose up -d --build
+    #     EOF
