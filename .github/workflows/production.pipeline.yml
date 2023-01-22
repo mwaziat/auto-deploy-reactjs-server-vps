@@ -46,7 +46,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker image
-      run: docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:latest
+      run: docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
     - name: Set up SSH
       run: |
