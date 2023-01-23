@@ -52,7 +52,7 @@ jobs:
         host: 103.13.206.22
         username: waziat
         password: Wanasaba10
-        port: 22
+        port: 3000
         script: |
           cd /var/www/app/auto-deploy-reactjs-server-vps
           sudo git pull origin production
