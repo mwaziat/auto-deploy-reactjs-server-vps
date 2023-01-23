@@ -49,9 +49,9 @@ jobs:
     - name: Deploy
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        host: 103.13.206.22
+        username: waziat
+        password: Wanasaba10
         script: |
           docker stop $IMAGE_NAME || true
           docker rm $IMAGE_NAME || true
