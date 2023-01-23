@@ -55,6 +55,8 @@ jobs:
         script: |
           cd /var/www/app/auto-deploy-reactjs-server-vps
           sudo git pull origin production
+          docker-compose down
+          docker-compose up -d
     
     # - name: Build Docker image
     #   run: |
