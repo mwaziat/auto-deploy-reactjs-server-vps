@@ -58,14 +58,12 @@ jobs:
     
     - name: Build Docker image
       run: |
-        cd /var/www/app/auto-deploy-reactjs-server-vps
-        sudo docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
+        docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
     
     - name: Deploy with Docker Compose
       run: |
-        cd /var/www/app/auto-deploy-reactjs-server-vps
-        sudo docker-compose down
-        sudo docker-compose up -d
+        docker-compose down
+        docker-compose up -d
       # script: |
       #   docker stop $IMAGE_NAME || true
       #   docker rm $IMAGE_NAME || true
