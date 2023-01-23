@@ -54,19 +54,17 @@ jobs:
         password: Wanasaba10
         port: 22
         script: |
-          cd /var/www/app/auto-deploy-reactjs-server-vps
+          cd /var/www/auto-deploy-reactjs-server-vps
           sudo git pull origin production
-          docker-compose down
-          docker-compose up -d
     
     # - name: Build Docker image
     #   run: |
     #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
     
-    # - name: Deploy with Docker Compose
-    #   run: |
-    #     docker-compose down
-    #     docker-compose up -d
+    - name: Deploy with Docker Compose
+      run: |
+        docker-compose down
+        docker-compose up -d
       # script: |
       #   docker stop $IMAGE_NAME || true
       #   docker rm $IMAGE_NAME || true
