@@ -42,9 +42,9 @@ jobs:
     - name: Build React app
       run: npm run build
 
-    - name: Build Docker image
-      run: |
-        docker build . --file Dockerfile --tag waziat/liburanterus-frontend-react:$ENVIRONMENT-$TAG
+    # - name: Build Docker image
+    #   run: |
+    #     docker build . --file Dockerfile --tag waziat/liburanterus-frontend-react:$ENVIRONMENT-$TAG
 
     - name: Deploy
       uses: appleboy/ssh-action@master
@@ -53,6 +53,9 @@ jobs:
         username: waziat
         password: Wanasaba10
         script: |
-          docker stop $IMAGE_NAME || true
-          docker rm $IMAGE_NAME || true
-          docker run -d --name $IMAGE_NAME -p 3011:3000 $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
+          cd /var/www/app/liburanterus-frontend-react
+          git pull origin production
+      # script: |
+      #   docker stop $IMAGE_NAME || true
+      #   docker rm $IMAGE_NAME || true
+      #   docker run -d --name $IMAGE_NAME -p 3011:3000 $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
