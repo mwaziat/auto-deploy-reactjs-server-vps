@@ -54,6 +54,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
           cd /var/www/auto-deploy-reactjs-server-vps
           sudo git pull origin production
     
