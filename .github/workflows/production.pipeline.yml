@@ -5,6 +5,18 @@ on:
     branches: 
     - production
 
+env:
+  IMAGE_NAME: liburanterus-frontend-react
+  DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}
+  TAG: ${{ github.run_number }}
+  ENVIRONMENT: production
+  DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+  HOSTS: ${{ secrets.VPS_HOST }}
+  USERNAME: ${{ secrets.VPS_USERNAME }}
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
