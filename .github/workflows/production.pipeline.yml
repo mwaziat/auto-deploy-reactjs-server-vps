@@ -16,7 +16,7 @@ env:
   KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
   HOSTS: ${{ secrets.VPS_HOST }}
   USERNAME: ${{ secrets.VPS_USERNAME }}
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        docker build . --file Dockerfile --tag waziat/liburanterus-frontend-react:$ENVIRONMENT-$TAG
 
     - name: Deploy
       uses: appleboy/ssh-action@master
