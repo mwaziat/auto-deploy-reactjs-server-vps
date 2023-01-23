@@ -6,7 +6,7 @@ on:
     - production
 
 env:
-  IMAGE_NAME: liburanterus-frontend-react
+  IMAGE_NAME: auto-deploy-reactjs-server-vps
   DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}
   TAG: ${{ github.run_number }}
   ENVIRONMENT: production
@@ -44,7 +44,7 @@ jobs:
 
     # - name: Build Docker image
     #   run: |
-    #     docker build . --file Dockerfile --tag waziat/liburanterus-frontend-react:$ENVIRONMENT-$TAG
+    #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
 
     - name: Deploy
       uses: appleboy/ssh-action@master
@@ -53,8 +53,17 @@ jobs:
         username: waziat
         password: Wanasaba10
         script: |
-          cd /var/www/app/liburanterus-frontend-react
+          cd /var/www/app/auto-deploy-reactjs-server-vps
           git pull origin production
+    
+    - name: Build Docker image
+      run: |
+        docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
+    
+    - name: Deploy with Docker Compose
+      run: |
+        docker-compose down
+        docker-compose up -d
       # script: |
       #   docker stop $IMAGE_NAME || true
       #   docker rm $IMAGE_NAME || true
