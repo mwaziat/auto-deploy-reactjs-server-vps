@@ -55,4 +55,4 @@ jobs:
         script: |
           docker stop $IMAGE_NAME || true
           docker rm $IMAGE_NAME || true
-          docker run -d --name $IMAGE_NAME -p 3011:3008 $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
+          docker run -d --name $IMAGE_NAME -p 3011:3000 $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
