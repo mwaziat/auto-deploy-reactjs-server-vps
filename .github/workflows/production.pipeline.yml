@@ -49,14 +49,17 @@ jobs:
     - name: Deploy
       uses: appleboy/ssh-action@master
       with:
-        host: 103.13.206.22
-        username: waziat
-        password: Wanasaba10
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
           cd /var/www/auto-deploy-reactjs-server-vps
           sudo git pull origin production
     
+    # host: 103.13.206.22
+    # username: waziat
+    # password: Wanasaba10
     # - name: Build Docker image
     #   run: |
     #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
