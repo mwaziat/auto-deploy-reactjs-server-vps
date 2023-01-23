@@ -63,14 +63,16 @@ jobs:
         script: |
           cd /var/www/$ENVIRONMENT/$IMAGE_NAME
           git pull origin production
+          docker-compose down
+          docker-compose up -d
           
-    - name: Build Docker image
-      run: docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
+#     - name: Build Docker image
+#       run: docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
-    - name: Deploy with Docker Compose
-      run: |
-        docker-compose down
-        docker-compose up -d
+#     - name: Deploy with Docker Compose
+#       run: |
+#         docker-compose down
+#         docker-compose up -d
         
     # - name: Set up SSH
     #   run: |
