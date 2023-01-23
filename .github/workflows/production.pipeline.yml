@@ -54,7 +54,7 @@ jobs:
         password: Wanasaba10
         script: |
           cd /var/www/app/auto-deploy-reactjs-server-vps
-          git pull origin production
+          sudo git pull origin production
     
     - name: Build Docker image
       run: |
