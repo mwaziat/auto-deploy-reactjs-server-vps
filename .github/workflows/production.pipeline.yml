@@ -61,7 +61,7 @@ jobs:
           Host target
             HostName ${{secrets.VPS_HOST}}
             User ${{ secrets.USERNAME }}
-            IdentityFile ~/.ssh/id_rsa_new
+            IdentityFile ~/.ssh/id_rsa_new.pub
     
     # - name: Set up SSH
     #   run: |
