@@ -46,6 +46,11 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
 
+    - name: Copy image to server
+      run: |
+        # Extract the built image
+        docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG)
+        
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/
@@ -53,15 +58,11 @@ jobs:
         sudo chmod 600 ../private.key
         echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
+        # Copy image to server
+        scp -i ~/.ssh/id_rsa_new.pub image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
+    
       shell: bash
 
-    - name: Copy image to server
-      run: |
-        # Extract the built image
-        docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG)
-        
-        # Copy image to server
-        scp -i ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:~/.ssh/id_rsa_new.pub image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
     
     # - name: copy file via ssh password
     #   uses: appleboy/scp-action@master
