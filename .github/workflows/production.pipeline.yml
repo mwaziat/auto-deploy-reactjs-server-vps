@@ -60,6 +60,8 @@ jobs:
         ssh-keyscan github.com >> ~/.ssh/known_hosts
         ssh-agent -a /tmp/ssh_agent.sock > /dev/null
         ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+        eval `ssh-agent -s`
+        ssh-add
         # Copy image to server
         # sudo scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
         scp ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar .
