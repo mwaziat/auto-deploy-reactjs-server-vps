@@ -52,7 +52,7 @@ jobs:
         docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest)
     
     - name: Setup SSH
-      uses: actions/setup-ssh@v1
+      uses: actions/setup-ssh@v3
       with:
         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
