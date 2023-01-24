@@ -51,19 +51,17 @@ jobs:
         # Extract the built image
         docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest)
     
-    - name: Setup SSH
-      uses: actions/setup-ssh@v3
+    - name: Install SSH key of target
+      uses: shimataro/ssh-key-action@v2
       with:
-        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: SSH into server
-      uses: actions/ssh-client@v1
-      with:
-        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.USERNAME }}
-        command: |
-          cd /var/www/auto-deploy-reactjs-server-vps
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        name: id_rsa_new
+        known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }} # will be appended to existing .ssh/known_hosts
+        config: |                                         # will be appended to existing .ssh/config
+          Host target
+            HostName ${{secrets.VPS_HOST}}
+            User ${{ secrets.USERNAME }}
+            IdentityFile ~/.ssh/id_rsa_new
 
     # - name: Set up SSH
     #   run: |
