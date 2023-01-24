@@ -50,20 +50,34 @@ jobs:
       run: |
         # Extract the built image
         docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest)
-        
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh/
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
-        sudo chmod 600 ../private.key
-        echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-        ssh-keyscan ${{secrets.VPS_HOST}} >> ~/.ssh/known_hosts
-        cd /var/www/auto-deploy-reactjs-server-vps
-        sudo git pull origin production
-        # Copy image to server
-        # sudo scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
-        # scp -i home/waziat/.ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar .
-      shell: bash
+    
+    - name: Setup SSH
+      uses: actions/setup-ssh@v1
+      with:
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: SSH into server
+      uses: actions/ssh-client@v1
+      with:
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.USERNAME }}
+        command: |
+          cd /var/www/auto-deploy-reactjs-server-vps
+
+    # - name: Set up SSH
+    #   run: |
+    #     mkdir -p ~/.ssh/
+    #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
+    #     sudo chmod 600 ../private.key
+    #     echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+    #     ssh-keyscan ${{secrets.VPS_HOST}} >> ~/.ssh/known_hosts
+    #     cd /var/www/auto-deploy-reactjs-server-vps
+    #     sudo git pull origin production
+    #     # Copy image to server
+    #     # sudo scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
+    #     # scp -i home/waziat/.ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar .
+    #   shell: bash
 
     
     # - name: copy file via ssh password
