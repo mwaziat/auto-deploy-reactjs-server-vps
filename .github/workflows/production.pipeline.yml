@@ -41,21 +41,29 @@ jobs:
 
     - name: Build React app
       run: npm run build
+    
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
+        sudo chmod 600 ../private.key
+        echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      shell: bash
 
     # - name: Build Docker image
     #   run: |
     #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
 
-    - name: Deploy
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /var/www/auto-deploy-reactjs-server-vps
-          sudo git pull origin production
+    # - name: Deploy
+    #   uses: appleboy/ssh-action@v0.1.7
+    #   with:
+    #     host: ${{ secrets.VPS_HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     port: 22
+    #     script: |
+    #       cd /var/www/auto-deploy-reactjs-server-vps
+    #       sudo git pull origin production
     
     # ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
     # ssh-keyscan -t ed25519 ${{secrets.VPS_HOST}} >> ~/.ssh/known_hosts
