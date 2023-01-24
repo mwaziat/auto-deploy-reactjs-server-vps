@@ -62,9 +62,8 @@ jobs:
             HostName ${{secrets.VPS_HOST}}
             User ${{ secrets.USERNAME }}
             IdentityFile ~/.ssh/id_rsa_new
-    - name: SCP via port-forwarding
-      run: scp image.tar target:var/www/auto-deploy-reactjs-server-vps/image.tar
-
+    
+    
     # - name: Set up SSH
     #   run: |
     #     mkdir -p ~/.ssh/
