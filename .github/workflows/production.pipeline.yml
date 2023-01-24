@@ -54,6 +54,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          ssh-keygen -R 103.13.206.22
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ssh-key
           chmod 600 ssh-key
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
