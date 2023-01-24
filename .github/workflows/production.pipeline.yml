@@ -42,12 +42,23 @@ jobs:
     - name: Build React app
       run: npm run build
     
+    - name: Build Docker image
+      run: |
+        docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
+
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
         sudo chmod 600 ../private.key
         echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+        sudo scp ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar .
+
+        sudo docker load -i image.tar
+
+        sudo docker-compose down
+        sudo docker-compose up -d
       shell: bash
 
     # - name: Build Docker image
