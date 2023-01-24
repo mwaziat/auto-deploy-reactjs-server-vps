@@ -63,17 +63,6 @@ jobs:
             User ${{ secrets.USERNAME }}
             IdentityFile ~/.ssh/id_rsa_new
     
-    - name: Configure and execute remote command
-      uses: mnival/ssh-remote-commands-action@v0.0.1
-      id: ssh
-      with:
-        ssh_host: ${{ secrets.VPS_HOST }}
-        ssh_user: ${{ secrets.USERNAME }}
-        ssh_key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh_commands: |
-          echo "Test first line"
-          echo "Line two"
-
     # - name: Set up SSH
     #   run: |
     #     mkdir -p ~/.ssh/
