@@ -44,12 +44,12 @@ jobs:
     
     - name: Build Docker image
       run: |
-        docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
+        docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest
 
-    - name: Copy image to server
+    - name: Extract the built image
       run: |
         # Extract the built image
-        docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG)
+        docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest)
         
     - name: Set up SSH
       run: |
@@ -59,7 +59,7 @@ jobs:
         echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
         # Copy image to server
-        scp -i id_rsa_new.pub image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
+        scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
     
       shell: bash
 
@@ -76,7 +76,7 @@ jobs:
 
     # - name: Build Docker image
     #   run: |
-    #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
+    #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest
 
     # - name: Deploy
     #   uses: appleboy/ssh-action@v0.1.7
@@ -98,7 +98,7 @@ jobs:
     # password: Wanasaba10
     # - name: Build Docker image
     #   run: |
-    #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG
+    #     docker build . --file Dockerfile --tag waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest
     
     # - name: Deploy with Docker Compose
     #   run: |
