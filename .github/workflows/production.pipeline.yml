@@ -61,7 +61,7 @@ jobs:
 
         # Copy image to server
         # sudo scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
-        scp ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar .
+        scp -i home/waziat/.ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar .
       shell: bash
 
     
