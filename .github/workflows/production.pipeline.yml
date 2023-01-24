@@ -61,7 +61,17 @@ jobs:
         docker save -o image.tar $(docker images -q waziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-$TAG)
         
         # Copy image to server
-        scp -i ${{ secrets.SSH_PRIVATE_KEY }} image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
+        # scp -i ${{ secrets.SSH_PRIVATE_KEY }} image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
+    
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+        source: "image.tar"
+        target: "var/www/auto-deploy-reactjs-server-vps"
 
     # - name: Build Docker image
     #   run: |
