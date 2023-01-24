@@ -59,7 +59,7 @@ jobs:
         echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
         # Copy image to server
-        scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
+        sudo scp -i ~/ssh/id_rsa_new image.tar ${{ secrets.USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/auto-deploy-reactjs-server-vps/image.tar
     
       shell: bash
 
