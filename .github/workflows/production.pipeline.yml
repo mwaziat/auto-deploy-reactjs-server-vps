@@ -44,7 +44,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
+    needs: build
     steps:
     - uses: actions/checkout@v3
 
@@ -80,9 +80,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        context: .
         push: true
-        tags: ghcr.io/$IMAGE_NAME:latest
+        tags: ghcr.io/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
     - name: Set container image to private
       run: |
