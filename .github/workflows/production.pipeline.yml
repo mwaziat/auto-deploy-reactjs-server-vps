@@ -45,10 +45,10 @@ jobs:
     - name: multiple command
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.VPS_HOST }}
+        host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          whoami
-          ls -al
+          cd /var/www/auto-deploy-reactjs-server-vps
+          git pull origin production
