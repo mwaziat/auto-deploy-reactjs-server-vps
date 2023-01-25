@@ -41,6 +41,20 @@ jobs:
 
     - name: Build React app
       run: npm run build
+
+    - name: Build container image
+      run: |
+        # Build container image
+        # docker build -t myusername/myimage:${TAG} .
+        run: docker build . --file Dockerfile --tag mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        
+        # Push container image ke GitHub Container Registry
+        #docker push myusername/myimage:${TAG}
+        docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+    
+    - name: Set container image to private
+      run: |
+        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X PATCH -d '{"visibility":"private"}' https://ghcr.io/mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG/settings
     
     - name: multiple command
       uses: appleboy/ssh-action@v0.1.7
