@@ -45,12 +45,12 @@ jobs:
     - name: Build container image
       run: |
         # Build container image
-        # docker build -t myusername/myimage:${TAG} .
         run: docker build . --file Dockerfile --tag mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+    # docker build -t myusername/myimage:${TAG} .
         
-        # Push container image ke GitHub Container Registry
-        #docker push myusername/myimage:${TAG}
-        #docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+    # Push container image ke GitHub Container Registry
+    #docker push myusername/myimage:${TAG}
+    #docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
     
     - name: Set container image to private
       run: |
