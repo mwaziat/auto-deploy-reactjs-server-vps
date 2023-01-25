@@ -51,8 +51,11 @@ jobs:
 
     - name: Build and Push Docker image
       run: |
+        # Build container image
         docker build . --file Dockerfile --tag ${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
-        docker push ${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
+
+        # Push container image ke GitHub Container Registry
+        docker push ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
     - name: Set container image to private
       run: |
