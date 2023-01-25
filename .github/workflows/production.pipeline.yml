@@ -50,7 +50,7 @@ jobs:
         
         # Push container image ke GitHub Container Registry
         #docker push myusername/myimage:${TAG}
-        docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        #docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
     
     - name: Set container image to private
       run: |
