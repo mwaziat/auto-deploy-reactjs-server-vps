@@ -42,11 +42,11 @@ jobs:
     - name: Build React app
       run: npm run build
 
-    - name: Build Docker image
+    - name: Build and Push Docker image
       run: |
-        docker build . --file Dockerfile --tag mwaziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest
+        docker build . --file Dockerfile --tag mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
-    
     - name: Set container image to private
       run: |
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X PATCH -d '{"visibility":"private"}' https://ghcr.io/mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG/settings
