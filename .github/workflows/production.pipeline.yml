@@ -54,3 +54,4 @@ jobs:
           ls -al
           cd /var/www/auto-deploy-reactjs-server-vps
           ls
+          git pull origin production
