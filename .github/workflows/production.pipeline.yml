@@ -61,7 +61,7 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: ghcr.io/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        tags: ${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
     - name: Set container image to private
       run: |
