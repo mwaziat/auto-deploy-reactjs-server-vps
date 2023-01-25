@@ -44,7 +44,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build . --file Dockerfile --tag mwaziat/$IMAGE_NAME:$ENVIRONMENT-latest
+        docker build . --file Dockerfile --tag mwaziat/auto-deploy-reactjs-server-vps:$ENVIRONMENT-latest
 
     
     - name: Set container image to private
