@@ -58,9 +58,10 @@ jobs:
     - name: Build Docker image
       run: |
         docker build . --file Dockerfile --tag ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
-        docker run ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        
         docker push ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
-
+    
+    # docker run ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
     # docker build . --tag ghcr.io/deselikem/hello-docker-gcr-demo:latest
     # docker run ghcr.io/deselikem/hello-docker-gcr-demo:latest
     # docker push ghcr.io/deselikem/hello-docker-gcr-demo:latest
