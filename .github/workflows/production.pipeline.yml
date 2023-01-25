@@ -42,15 +42,10 @@ jobs:
     - name: Build React app
       run: npm run build
 
-    - name: Build container image
+    - name: Build Docker image
       run: |
-        # Build container image
-        run: docker build . --file Dockerfile --tag mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
-    # docker build -t myusername/myimage:${TAG} .
-        
-    # Push container image ke GitHub Container Registry
-    #docker push myusername/myimage:${TAG}
-    #docker push mwaziat/$IMAGE_NAME:$ENVIRONMENT-$TAG
+        docker build . --file Dockerfile --tag mwaziat/$IMAGE_NAME:$ENVIRONMENT-latest
+
     
     - name: Set container image to private
       run: |
