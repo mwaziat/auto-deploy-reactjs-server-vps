@@ -53,3 +53,4 @@ jobs:
           whoami
           ls -al
           cd /var/www/auto-deploy-reactjs-server-vps
+          ls
