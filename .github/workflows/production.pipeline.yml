@@ -61,12 +61,20 @@ jobs:
         
     # docker push ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
     
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
+    # - name: Build and push Docker image
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: .
+    #     push: true
+    #     tags: ghcr.io/${{github.actor}}/$IMAGE_NAME:production
+
+    - name: Build and Publish latest service image
+      uses: pmorelli92/github-container-registry-build-push@2.0.0
       with:
-        context: .
-        push: true
-        tags: ghcr.io/${{github.actor}}/$IMAGE_NAME:production
+        github-push-secret: ${{secrets.GITHUB_TOKEN}}
+        docker-image-name: $IMAGE_NAME
+        docker-image-tag: production # optional
+        build-only: false # optional
 
     # docker run ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
     # docker build . --tag ghcr.io/deselikem/hello-docker-gcr-demo:latest
