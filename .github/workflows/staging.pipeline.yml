@@ -3,13 +3,13 @@ name: Deploy to VPS
 on:
   pull_request:
     branches: 
-    - production
+    - staging
 
 env:
   IMAGE_NAME: liburanterus-admin-react
   DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}
   TAG: ${{ github.run_number }}
-  ENVIRONMENT: production
+  ENVIRONMENT: staging
   DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
   DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
   PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -70,7 +70,7 @@ jobs:
           cd /var/www/auto-deploy-reactjs-server-vps
           ls
 
-          sudo docker-compose -f docker-compose-production.yml down
-          sudo docker-compose -f docker-compose-production.yml up -d
+          sudo docker-compose -f docker-compose-staging.yml down
+          sudo docker-compose -f docker-compose-staging.yml up -d
     #      sudo docker login 
     #      sudo docker pull waziat/liburanterus-admin-react:latest
