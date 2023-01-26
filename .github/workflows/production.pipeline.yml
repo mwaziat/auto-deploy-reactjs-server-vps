@@ -6,7 +6,7 @@ on:
     - production
 
 env:
-  IMAGE_NAME: auto-deploy-reactjs-server-vps
+  IMAGE_NAME: liburanterus-admin-react
   DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}
   TAG: ${{ github.run_number }}
   ENVIRONMENT: production
@@ -47,12 +47,22 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Login with Github Container registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build Docker image
+      run: docker build . --file Dockerfile --tag $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
+
+    - name: Login to Docker Hub
+      run: |
+        echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+  
+    - name: Push Image to Docker Hub
+      run: docker push $DOCKER_REPOSITORY/$IMAGE_NAME:$ENVIRONMENT-$TAG
+
+    # - name: Login with Github Container registry
+    #   uses: docker/login-action@v2
+    #   with:
+    #     registry: ghcr.io
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: Build Docker image
     #   run: |
@@ -67,13 +77,13 @@ jobs:
     #     push: true
     #     tags: ghcr.io/${{github.actor}}/$IMAGE_NAME:production
 
-    - name: Build and Publish latest service image
-      uses: pmorelli92/github-container-registry-build-push@2.0.0
-      with:
-        github-push-secret: ${{secrets.GITHUB_TOKEN}}
-        docker-image-name: auto-deploy-reactjs-server-vps
-        docker-image-tag: production # optional
-        build-only: false # optional
+    # - name: Build and Publish latest service image
+    #   uses: pmorelli92/github-container-registry-build-push@2.0.0
+    #   with:
+    #     github-push-secret: ${{secrets.GITHUB_TOKEN}}
+    #     docker-image-name: auto-deploy-reactjs-server-vps
+    #     docker-image-tag: production # optional
+    #     build-only: false # optional
 
     # docker run ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
     # docker build . --tag ghcr.io/deselikem/hello-docker-gcr-demo:latest
@@ -89,9 +99,9 @@ jobs:
     #     push: true
     #     tags: ghcr.io/$IMAGE_NAME:$ENVIRONMENT-$TAG
 
-    - name: Set container image to private
-      run: |
-        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X PATCH -d '{"visibility":"private"}' https://ghcr.io/${{github.actor}}/$IMAGE_NAME:production/settings
+    # - name: Set container image to private
+    #   run: |
+    #     curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X PATCH -d '{"visibility":"private"}' https://ghcr.io/${{github.actor}}/$IMAGE_NAME:production/settings
     
     - name: multiple command
       uses: appleboy/ssh-action@v0.1.7
