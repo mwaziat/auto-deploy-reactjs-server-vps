@@ -55,9 +55,9 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build Docker image
-      run: |
-        docker build . --file Dockerfile --tag ghcr.io/${{github.actor}}/$IMAGE_NAME:production
+    # - name: Build Docker image
+    #   run: |
+    #     docker build . --file Dockerfile --tag ghcr.io/${{github.actor}}/$IMAGE_NAME:production
         
     # docker push ghcr.io/${{github.actor}}/$IMAGE_NAME:$ENVIRONMENT-$TAG
     
