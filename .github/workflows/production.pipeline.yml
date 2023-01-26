@@ -6,7 +6,7 @@ on:
     - production
 
 env:
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: auto-deploy-reactjs-server-vps
   DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}
   TAG: ${{ github.run_number }}
   ENVIRONMENT: production
