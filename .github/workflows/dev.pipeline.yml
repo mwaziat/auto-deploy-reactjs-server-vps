@@ -74,3 +74,4 @@ jobs:
           sudo docker-compose -f docker-compose-develop.yml up -d
     #      sudo docker login 
     #      sudo docker pull waziat/liburanterus-admin-react:latest
+    # sudo docker-compose build --pull
